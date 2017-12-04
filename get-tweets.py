@@ -28,10 +28,8 @@ def set_output_path():
     if not os.path.exists(mainpath):
         os.makedirs(mainpath)
     
-    filepath = os.path.join(
-        mainpath,
-        datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')
-    )
+    filedate = datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')
+    filepath = os.path.join(mainpath, s.OUTFILE + filedate)
     
     return filepath
     
