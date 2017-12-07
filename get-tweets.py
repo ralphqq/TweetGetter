@@ -4,6 +4,7 @@ import argparse
 import datetime
 import json
 import os
+import sys
 
 import tweepy
 
@@ -32,6 +33,13 @@ def set_output_path():
     filepath = os.path.join(mainpath, s.OUTFILE + filedate)
     
     return filepath
+
+
+def show_progress(ntweets=0, loop='initial'):
+    """Shows the tweet collection progress"""
+    offset = {'initial': 0, 'subsequent': 23}
+    report = '{} tweets obtained'.format(ntweets)
+    sys.stdout.write('\b' * offset[loop] + '{:23}'.format(report))
     
 
 def get_tweets(api, user, count):
@@ -40,9 +48,12 @@ def get_tweets(api, user, count):
     data = []
     data = api.user_timeline(screen_name=user, count=count)
     
-    if count > 200:
-        
-        while len(data) < count:
+    while True:
+        ntweets = len(data)
+        show_progress(ntweets, 'subsequent')
+        if ntweets >= count:
+            break
+        else:
             max_id = data[-1]['id'] - 1
             data += api.user_timeline(
                 screen_name=user,
@@ -70,24 +81,26 @@ def set_users(username):
 
 def main(args):
     """Handles script flow."""
-    print '\nAuthorizing...'
+    print '\nAuthorizing'
     api = get_access()
     data = []
     
     users = set_users(args.user)
     
-    print 'Extracting tweets from %d users...' % len(users)
+    print 'Extracting tweet data from %d users' % len(users)
     
     for user in users:
-        print ' - Now processing %s' % user
+        sys.stdout.write('- Now processing %s: ' % user)
+        show_progress()
         tweets = get_tweets(api=api, user=user, count=args.numtweets)
         data += tweets
-        print '    - Obtained %d tweets from %s' % (len(tweets), user) 
+        sys.stdout.write('\n')
     
     with open(set_output_path() + '.json', 'w') as fh:
         json.dump(data, fh, indent=1)
+        print 'Saved data to file %s' % os.path.split(fh.name)[-1]
     
-    print 'Finished...'
+    print 'Finished\n'
 
 
 if __name__ == '__main__':
