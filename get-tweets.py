@@ -1,5 +1,3 @@
-# The script for extracting tweets
-
 import argparse
 import datetime
 import json
