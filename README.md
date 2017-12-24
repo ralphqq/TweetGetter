@@ -2,9 +2,7 @@
 This command line tool obtains data from a specified number of a Twitter user's (or multiple users') tweets, then saves the output as a JSON file for further data analysis.
 
 ## Installation
-This script works on Python 2.7 and 3.6. It requires [tweepy](http://docs.tweepy.org/en/v3.5.0/) and [click](http://click.pocoo.org/5/).
-
-To install all dependencies (and to be able to execute the script as a command line tool):
+This script works on Python 2.7 and 3.6. It requires [tweepy](http://docs.tweepy.org/en/v3.5.0/) and [click](http://click.pocoo.org/5/). To install all dependencies (and to be able to execute the script as a command line tool):
 
 1. cd to the project's root directory.
 2. Create a new virtual environment.
