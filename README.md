@@ -1,27 +1,49 @@
 # TweetGetter
-This script obtains data from a specified number of a Twitter user's (or multiple users') tweets, then saves the output as a JSON file for further data analysis.
+This command line tool obtains data from a specified number of a Twitter user's (or multiple users') tweets, then saves the output as a JSON file for further data analysis.
 
-## Requirements
-This runs on Python 2.7 and uses [tweepy 3.5.0](https://pypi.python.org/pypi/tweepy/3.5.0). Please `pip install tweepy` before running the script.
+## Installation
+This script works on Python 2.7 and 3.6. To install all dependencies (and to be able to execute the script as a command line tool):
+
+1. cd to the project's root directory.
+2. Create a new virtualenv.
+3. Run the following command:
+
+```
+    $ pip install --editable .
+```
 
 ## Usage
-Just cd to the project's root directory and run:
+The basic syntax goes as follows:
 
 ```
-    $ python get-tweets.py -u screenname -n 100
+    $ tweets <screen_name1> <screen_name2> ... -n <number_of_tweets_to_get>
 ```
 
-## Options
-To obtain data of the `n` most recent tweets from a given user, use the `-u` option to specify the user's screen name. Use the `-n` option to indicate the number of tweets to include. For example, the following command gets tweet data of the 100 most recent tweets from the [Hacker News](https://twitter.com/newsycombinator) twitter timeline and saves the data into an output file.
+## Parameters
+The command accepts an arbitrary number of screen names (@handles without the @ mark) to obtain tweet data from. If no screen name is specified, the script instead looks for screen names in the `userlist.txt` file (more on this below).
+
+The `-n` option lets you indicate how many of the most recent tweets from each user to get. If not specified, it defaults to 200 tweets. Although you can pass any positive integer to this option, the maximum number of tweets you can obtain from a user's timeline is limited to 3,200 (see the [GET statuses/user_timeline](https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html) section of the Twitter Developers page).
+
+For example, to obtain the tweet data of the 100 most recent statuses from [Hacker News]((https://twitter.com/newsycombinator)'s timeline:
 
 ```
-    $ python get-tweets.py -u @newsycombinator -n 100
+    $ tweets newsycombinator -n 100
 ```
 
-Both of these are optional arguments. If no username is specified, the script uses the list of screen names saved in the `userlist.txt` file. Similarly, the script sets the default number of tweets to include at 200, if `-n` is not specified.
+The following command gets the data of the 1000 most recent tweets from [Elon Musc](https://twitter.com/elonmusk) and [SpaceX](https://twitter.com/SpaceX)
 
-## Getting Tweets from Multiple Twitter Users
-This script allows you to obtain tweets from multiple users. In the `userlist.txt` file, enter the screen names of the users you want to collect tweets from. Make sure no two screen names appear on the same line. Then, just ignore `-u` when running the script.
+```
+    $ tweets elonmusk SpaceX -n 1000
+```
+
+## Getting Tweets from a List of Twitter Users
+This script also allows you to obtain tweets from a list of users. In the `userlist.txt` file, save the screen names of the users you want to collect tweets from. Make sure no two screen names appear on the same line. Then, just don't specify any screen name when running the command on the terminal.
+
+The below command gets the 500 most recent tweets from each of the users whose screen names are saved on the `userlist.txt` file:
+
+```
+    $ tweets -n 500
+```
 
 ## Output
 The collected data will be saved as a JSON file in the `Output` directory of the project folder.
