@@ -2,15 +2,17 @@
 This command line tool obtains data from a specified number of a Twitter user's (or multiple users') tweets, then saves the output as a JSON file for further data analysis.
 
 ## Installation
-This script works on Python 2.7 and 3.6. To install all dependencies (and to be able to execute the script as a command line tool):
+This script works on Python 2.7 and 3.6. It requires [tweepy](http://docs.tweepy.org/en/v3.5.0/) and [click](http://click.pocoo.org/5/). To install all dependencies (and to be able to execute the script as a command line tool):
 
 1. cd to the project's root directory.
-2. Create a new virtualenv.
+2. Create a new virtual environment.
 3. Run the following command:
 
 ```
     $ pip install --editable .
 ```
+
+Make sure to activate this virtual environment before using the script.
 
 ## Usage
 The basic syntax goes as follows:
@@ -24,7 +26,7 @@ The command accepts an arbitrary number of screen names (@handles without the @ 
 
 The `-n` option lets you indicate how many of the most recent tweets from each user to get. If not specified, it defaults to 200 tweets. Although you can pass any positive integer to this option, the maximum number of tweets you can obtain from a user's timeline is limited to 3,200 (see the [GET statuses/user_timeline](https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html) section of the Twitter Developers page).
 
-For example, to obtain the tweet data of the 100 most recent statuses from [Hacker News]((https://twitter.com/newsycombinator)'s timeline:
+For example, to collect the tweet data of the 100 most recent statuses from [Hacker News]((https://twitter.com/newsycombinator):
 
 ```
     $ tweets newsycombinator -n 100
